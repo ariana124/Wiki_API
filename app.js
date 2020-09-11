@@ -31,3 +31,22 @@ app.get("/articles", function(req, res) {
         }
     });
 });
+
+app.post("/articles", function(req, res) {
+
+    const title = req.body.title;
+    const content = req.body.content;
+
+    const newArticle = new Article ({
+        title: title,
+        content: content
+    });
+
+    newArticle.save(function(err){
+        if (err) {
+            console.log(err);
+        } else {
+            res.send("Successfully added a new article.");
+        }
+    });
+});
