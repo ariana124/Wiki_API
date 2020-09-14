@@ -22,41 +22,41 @@ app.listen(3000, function() {
     console.log("Server is running on port 3000.");
 });
 
-app.get("/articles", function(req, res) {
-    Article.find(function(err, foundArticles){
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(foundArticles);
-        }
-    });
-});
+app.route("/articles")
+    .get(function(req, res) {
+        Article.find(function(err, foundArticles){
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(foundArticles);
+            }
+        });
+    })
+    .post(function(req, res) {
 
-app.post("/articles", function(req, res) {
-
-    const title = req.body.title;
-    const content = req.body.content;
-
-    const newArticle = new Article ({
-        title: title,
-        content: content
-    });
-
-    newArticle.save(function(err){
-        if (err) {
-            console.log(err);
-        } else {
-            res.send("Successfully added a new article.");
-        }
-    });
-});
-
-app.delete("/articles", function(req, res) {
-    Article.deleteMany(function(err){
-        if (err) {
-            res.send(err);
-        } else {
-            res.send("Successfully deleted all articles.");
-        }
-    });
-});
+        const title = req.body.title;
+        const content = req.body.content;
+    
+        const newArticle = new Article ({
+            title: title,
+            content: content
+        });
+    
+        newArticle.save(function(err){
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Successfully added a new article.");
+            }
+        });
+    })
+    .delete(function(req, res) {
+        Article.deleteMany(function(err){
+            if (err) {
+                res.send(err);
+            } else {
+                res.send("Successfully deleted all articles.");
+            }
+        });
+    })
+    
